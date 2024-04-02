@@ -49,6 +49,34 @@ class ejemplo_model extends CI_Model
         }
     }
 
+    public function get_alumnos($curso)
+    {
+        $this->db->select("*");
+        $this->db->from("alumnos");
+        $this->db->where("curso",$curso);
+        $this->db->where("deleted",0);
+
+        // obtener consulta generada
+        $query = $this->db->get();
+
+        // print_r($this->db->last_query());
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return NULL;
+        }
+    }
+
+    // -------------- Update --------------
+    // no borra, cambia el valor deleted a true
+    public function delete_Alumno($id) {
+        $actualiza["deleted"] = 1;
+
+        $this->db->where("id",$id);
+        $this->db->update("alumnos",$actualiza);
+    }
+
 
     // -------------- LOGIN --------------
     public function loginUser($data)

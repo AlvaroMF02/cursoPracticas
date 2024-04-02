@@ -24,6 +24,7 @@ class Dashboard extends CI_Controller
 				$usuario["id"] = $login[0]->id;
 				$usuario["nombre"] = $login[0]->nombre;
 				$usuario["apellidos"] = $login[0]->apellidos;
+				$usuario["curso"] = $login[0]->curso;
 				$usuario["username"] = $login[0]->username;
 				$usuario["password"] = $login[0]->password;
 
@@ -42,28 +43,76 @@ class Dashboard extends CI_Controller
 		$this->loadViews("login");
 	}
 
-	public function loadViews($view,$data=null)
+	public function loadViews($view, $data = null)
 	{
 		// Si la sesión esta iniciada
 		if (isset($_SESSION["username"])) {
 
 			// Para dejar de estar en la funcion login ( lo quita de la url, te manda a dashboard )
-			if($view == "login"){
-				redirect(base_url()."Dashboard","location");
+			if ($view == "login") {
+				redirect(base_url() . "Dashboard", "location");
 			}
 
 			// cargar vistas index
 			$this->load->view("includes/header");
 			$this->load->view("includes/sidebar");
-			$this->load->view("home");
+			$this->load->view($view, $data);
 			$this->load->view("includes/footer");
-
-		}else{
-			if($view=="login"){
+		} else {
+			if ($view == "login") {
 				$this->load->view($view);
-			}else{
-				redirect(base_url()."Dashboard/login","location");
+			} else {
+				redirect(base_url() . "Dashboard/login", "location");
 			}
+		}
+	}
+
+	// llama a la funcion del modelo para edita un alumno y poner el deleted a true
+	public function eliminarAlumno()
+	{
+		if ($_POST["idAlumno"]) {
+			$this->ejemplo_model->delete_Alumno($_POST["idAlumno"]);
+		}
+	}
+
+	// Crea tareas
+	public function crearTareas()
+	{
+		$this->loadViews("crearTareas");
+
+		// si se ejecuta el formulario
+		if ($_POST) {
+			$config['upload_path']          = './uploads/';
+			$config['allowed_types']        = 'gif|jpg|png';
+			// $config['max_size']             = 100;
+			// $config['max_width']            = 1024;
+			// $config['max_height']           = 768;
+
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload('userfile')) {
+				$error = array('error' => $this->upload->display_errors());
+
+				$this->load->view('upload_form', $error);
+			} else {
+				$data = array('upload_data' => $this->upload->data());
+
+				$this->load->view('upload_success', $data);
+			}
+		}
+	}
+
+
+	public function gestionAlumnos()
+	{
+		// Si no eres profesor te manda a home 
+		if ($_SESSION["tipo"] == "profesor") {
+			// las variables que se pasan a vistas se guardan en arrays
+			$data["alumnos"] = $this->ejemplo_model->get_alumnos($_SESSION["curso"]); // despues se llama por alumnos
+
+			$this->loadViews("gestionAlumnos", $data);
+		} else {
+			redirect(base_url() . "Dashboard", "location");
 		}
 	}
 }

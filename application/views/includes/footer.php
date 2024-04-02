@@ -1,34 +1,32 @@
 <!--footer start-->
-<footer class="site-footer">
+<!-- <footer class="site-footer">
     <div class="text-center">
         2014 - Alvarez.is
         <a href="index.html#" class="go-top">
             <i class="fa fa-angle-up"></i>
         </a>
     </div>
-</footer>
+</footer> -->
 <!--footer end-->
 </section>
 
 <!-- js placed at the end of the document so the pages load faster -->
-<script src="assets/js/jquery.js"></script>
-<script src="assets/js/jquery-1.8.3.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
-<script src="assets/js/jquery.scrollTo.min.js"></script>
-<script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-<script src="assets/js/jquery.sparkline.js"></script>
+<script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="<?= base_url() ?>assets/js/jquery.dcjqaccordion.2.7.js"></script>
+<script src="<?= base_url() ?>assets/js/jquery.scrollTo.min.js"></script>
+<script src="<?= base_url() ?>assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="<?= base_url() ?>assets/js/jquery.sparkline.js"></script>
 
 
 <!--common script for all pages-->
-<script src="assets/js/common-scripts.js"></script>
+<script src="<?= base_url() ?>assets/js/common-scripts.js"></script>
 
-<script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
-<script type="text/javascript" src="assets/js/gritter-conf.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/js/gritter/js/jquery.gritter.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>assets/js/gritter-conf.js"></script>
 
 <!--script for this page-->
-<script src="assets/js/sparkline-chart.js"></script>
-<script src="assets/js/zabuto_calendar.js"></script>
+<script src="<?= base_url() ?>assets/js/sparkline-chart.js"></script>
+<script src="<?= base_url() ?>assets/js/zabuto_calendar.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -38,7 +36,7 @@
             // (string | mandatory) the text inside the notification
             text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo. Free version for <a href="http://blacktie.co" target="_blank" style="color:#ffd777">BlackTie.co</a>.',
             // (string | optional) the image to display on the left
-            image: 'assets/img/ui-sam.jpg',
+            image: '<?= base_url() ?>assets/img/ui-sam.jpg',
             // (bool | optional) if you want it to fade out on its own or just sit there
             sticky: true,
             // (int | optional) the time you want it to be alive for before fading out
