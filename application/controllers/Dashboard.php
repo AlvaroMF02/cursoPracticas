@@ -47,15 +47,17 @@ class Dashboard extends CI_Controller
 		// Si la sesión esta iniciada
 		if (isset($_SESSION["username"])) {
 
-			// Para dejar de estar en la funcion login
+			// Para dejar de estar en la funcion login ( lo quita de la url, te manda a dashboard )
 			if($view == "login"){
 				redirect(base_url()."Dashboard","location");
 			}
 
+			// cargar vistas index
 			$this->load->view("includes/header");
 			$this->load->view("includes/sidebar");
 			$this->load->view("home");
 			$this->load->view("includes/footer");
+
 		}else{
 			if($view=="login"){
 				$this->load->view($view);
