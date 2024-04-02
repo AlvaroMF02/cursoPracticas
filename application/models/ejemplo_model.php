@@ -48,6 +48,21 @@ class ejemplo_model extends CI_Model
             return NULL;
         }
     }
+    public function mis_tareas($curso)
+    {
+        $this->db->select("*");
+        $this->db->from("tareas");
+        $this->db->where("curso",$curso);
+        $this->db->order_by("fecha_final","ASC");
+
+        $query = $this->db->get();
+        // print_r($this->db->last_query());
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return NULL;
+        }
+    }
 
     public function get_alumnos($curso)
     {
@@ -75,6 +90,17 @@ class ejemplo_model extends CI_Model
 
         $this->db->where("id",$id);
         $this->db->update("alumnos",$actualiza);
+    }
+
+    // -------------- Insert --------------
+    public function subirTarea($data,$archivo) {
+        $tarea["nombre"] = $data["nombre"];
+        $tarea["descripcion"] = $data["descripcion"];
+        $tarea["fecha_final"] = $data["fecha"];
+        $tarea["archivo"] = $archivo;
+        $tarea["curso"] = $data["curso"];
+
+        $this->db->insert("tareas",$tarea);
     }
 
 

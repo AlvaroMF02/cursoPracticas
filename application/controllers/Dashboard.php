@@ -83,25 +83,24 @@ class Dashboard extends CI_Controller
 		// si se ejecuta el formulario
 		if ($_POST) {
 			$config['upload_path']          = './uploads/';
-			$config['allowed_types']        = 'gif|jpg|png';
+			$config['allowed_types']        = 'gif|jpeg|png';
 			// $config['max_size']             = 100;
 			// $config['max_width']            = 1024;
 			// $config['max_height']           = 768;
 
+			$config["file_name"] = uniqid() . $_FILES["archivo"]["name"];	// id unico mas el nombre del archivo
+
 			$this->load->library('upload', $config);
 
-			if (!$this->upload->do_upload('userfile')) {
-				$error = array('error' => $this->upload->display_errors());
-
-				$this->load->view('upload_form', $error);
+			// si no se sube el archivo
+			if (!$this->upload->do_upload('archivo')) {
+				echo "error";
 			} else {
-				$data = array('upload_data' => $this->upload->data());
-
-				$this->load->view('upload_success', $data);
+				// si se ha subido llamo a la funcion del modelo
+				$this->ejemplo_model->subirTarea($_POST, $config["file_name"]);
 			}
 		}
 	}
-
 
 	public function gestionAlumnos()
 	{
@@ -111,6 +110,18 @@ class Dashboard extends CI_Controller
 			$data["alumnos"] = $this->ejemplo_model->get_alumnos($_SESSION["curso"]); // despues se llama por alumnos
 
 			$this->loadViews("gestionAlumnos", $data);
+		} else {
+			redirect(base_url() . "Dashboard", "location");
+		}
+	}
+
+	public function misTareas()
+	{
+
+		if ($_SESSION["id"]) {
+			$data["tareas"] = $this->ejemplo_model->mis_tareas($_SESSION["curso"]);
+			$this->loadViews("misTareas", $data);
+			
 		} else {
 			redirect(base_url() . "Dashboard", "location");
 		}

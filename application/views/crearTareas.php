@@ -37,7 +37,17 @@
                                 <input class="form-control" type="file" name="archivo">
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Curso</label>
+                            <div class="col-sm-10">
+                                <select name="curso">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit">Enviar</button>
                     </form>
                 </div>
             </div>

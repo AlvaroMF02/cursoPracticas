@@ -47,7 +47,7 @@
             }
             ?>
             <li class="sub-menu">
-                <a href="javascript:;">
+                <a href="<?= base_url()?>Dashboard/misTareas">
                     <i class="fa fa-book"></i>
                     <span>Mis tareas</span>
                 </a>
