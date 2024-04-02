@@ -52,8 +52,8 @@ class ejemplo_model extends CI_Model
     {
         $this->db->select("*");
         $this->db->from("tareas");
-        $this->db->where("curso",$curso);
-        $this->db->order_by("fecha_final","ASC");
+        $this->db->where("curso", $curso);
+        $this->db->order_by("fecha_final", "ASC");
 
         $query = $this->db->get();
         // print_r($this->db->last_query());
@@ -68,8 +68,8 @@ class ejemplo_model extends CI_Model
     {
         $this->db->select("*");
         $this->db->from("alumnos");
-        $this->db->where("curso",$curso);
-        $this->db->where("deleted",0);
+        $this->db->where("curso", $curso);
+        $this->db->where("deleted", 0);
 
         // obtener consulta generada
         $query = $this->db->get();
@@ -85,24 +85,26 @@ class ejemplo_model extends CI_Model
 
     // -------------- Update --------------
     // no borra, cambia el valor deleted a true
-    public function delete_Alumno($id) {
+    public function delete_Alumno($id)
+    {
         $actualiza["deleted"] = 1;
 
-        $this->db->where("id",$id);
-        $this->db->update("alumnos",$actualiza);
+        $this->db->where("id", $id);
+        $this->db->update("alumnos", $actualiza);
     }
 
     // -------------- Insert --------------
-    public function subirTarea($data,$archivo=null) {
+    public function subirTarea($data, $archivo = null)
+    {
         $tarea["nombre"] = $data["nombre"];
         $tarea["descripcion"] = $data["descripcion"];
         $tarea["fecha_final"] = $data["fecha"];
         $tarea["curso"] = $data["curso"];
-        if($archivo != null){
+        if ($archivo != null) {
             $tarea["archivo"] = $archivo;
         }
 
-        $this->db->insert("tareas",$tarea);
+        $this->db->insert("tareas", $tarea);
     }
 
 
@@ -120,7 +122,6 @@ class ejemplo_model extends CI_Model
         if ($query->num_rows() > 0) {              // parte del alumno, si no hay resultado prueba con alumno
 
             return $query->result();
-
         } else {
 
             $this->db->select("*");
@@ -134,6 +135,80 @@ class ejemplo_model extends CI_Model
                 return $queryAlumno->result(); // $query
             }
 
+            return NULL;
+        }
+    }
+
+    // coger todos los usuarios 
+    public function get_usuarios($tipo, $curso)
+    {
+        $this->db->select("*");
+
+        if ($tipo == "profesor") {
+            $this->db->from("alumnos");
+        } else {
+            $this->db->from("profesores");
+        }
+
+        $this->db->where("curso", $curso);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+
+        return NULL;
+    }
+
+    // guardar los mensajes que se envian
+    public function insertar_mensaje($data, $idUser)
+    {
+        $mensaje["texto"] = $data["mensaje"];
+        $mensaje["id_from"] = $idUser;
+        $mensaje["id_to"] = $data["id_to"];
+
+        $this->db->insert("mensajes", $mensaje);
+    }
+
+    // pasar el token del usuario
+    public function get_token($id, $tipo)
+    {
+        $this->db->select("*");
+        $this->db->where("id", $id);
+
+        if ($tipo == "profesor") {
+            $this->db->from("profesores");
+        } else {
+            $this->db->from("alumnos");
+        }
+
+        // obtener consulta generada
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result[0]->token_mensaje;
+        } else {
+            return NULL;
+        }
+    }
+
+    // coger los mensajes
+    public function get_mensajes($token)
+    {
+        $this->db->select("*");
+        $this->db->where("id_to", $token);
+        $this->db->from("mensajes");
+
+        // obtener consulta generada
+        $query = $this->db->get();
+
+        print_r($this->db->last_query());
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
             return NULL;
         }
     }

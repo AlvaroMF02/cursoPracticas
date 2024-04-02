@@ -126,6 +126,7 @@ class Dashboard extends CI_Controller
 	{
 
 		if ($_SESSION["id"]) {
+
 			$data["tareas"] = $this->ejemplo_model->mis_tareas($_SESSION["curso"]);
 			$this->loadViews("misTareas", $data);
 		} else {
@@ -137,8 +138,21 @@ class Dashboard extends CI_Controller
 	// Mensajes
 	public function mensajes()
 	{
+
 		if ($_SESSION["id"]) {
-			$this->loadViews("mensajes");
+
+			// Insertar mensaje
+			if ($_POST) {
+				$this->ejemplo_model->insertar_mensaje($_POST, $_SESSION["id"]);
+			}
+			// Obtener a los usuarios
+			$data["usuarios"] = $this->ejemplo_model->get_usuarios($_SESSION["tipo"], $_SESSION["curso"]);
+
+			// Obtener los mensajes
+			$token = $this->ejemplo_model->get_token($_SESSION["id"],$_SESSION["tipo"]);
+			$data["mensajes"] = $this->ejemplo_model->get_mensajes($token);
+
+			$this->loadViews("mensajes", $data);
 		} else {
 			redirect(base_url() . "Dashboard", "location");
 		}

@@ -53,7 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development'); // se puede cambiar a production 
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production'); // se puede cambiar a production 
 	// 																				( me funcionaba con development pero el tio lo cambia para que no le salgan errores)
 /*
  *---------------------------------------------------------------
