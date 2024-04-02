@@ -14,11 +14,23 @@
                         <?= $t->descripcion ?>
                     </div>
                     <div class="row">
-                        <?= date( "d-m-Y",strtotime($t->fecha_final)) ?>
+                        <?= date("d-m-Y", strtotime($t->fecha_final)) ?>
                     </div>
+
+
                     <div class="row">
-                        <a href="<?= base_url()."uploads/". $t->archivo ?>" download="">Descargar</a>
+                        <?php
+                        if ($t->archivo != "") {
+                        ?>
+                            <a href="<?= base_url() . "uploads/" . $t->archivo ?>" download="">Descargar</a>;
+                        <?php
+                        } else {
+                            echo 'Sin archivo';
+                        }
+                        ?>
                     </div>
+
+
                 </div>
 
             <?php

@@ -82,22 +82,29 @@ class Dashboard extends CI_Controller
 
 		// si se ejecuta el formulario
 		if ($_POST) {
-			$config['upload_path']          = './uploads/';
-			$config['allowed_types']        = 'gif|jpeg|png';
-			// $config['max_size']             = 100;
-			// $config['max_width']            = 1024;
-			// $config['max_height']           = 768;
 
-			$config["file_name"] = uniqid() . $_FILES["archivo"]["name"];	// id unico mas el nombre del archivo
+			if ($_FILES["archivo"]) {
+				$config['upload_path']          = './uploads/';
+				$config['allowed_types']        = 'gif|jpeg|png';
+				// $config['max_size']             = 100;
+				// $config['max_width']            = 1024;
+				// $config['max_height']           = 768;
 
-			$this->load->library('upload', $config);
+				if ($_FILES["archivo"]["name"] == "") {
+					$config["file_name"] = "";
+				} else {
+					$config["file_name"] = uniqid() . $_FILES["archivo"]["name"];	// id unico mas el nombre del archivo
+				}
 
-			// si no se sube el archivo
-			if (!$this->upload->do_upload('archivo')) {
-				echo "error";
-			} else {
+
+				$this->load->library('upload', $config);
+
+
 				// si se ha subido llamo a la funcion del modelo
 				$this->ejemplo_model->subirTarea($_POST, $config["file_name"]);
+			} else {
+				// subida pero sin archivo
+				$this->ejemplo_model->subirTarea($_POST);
 			}
 		}
 	}
@@ -121,7 +128,17 @@ class Dashboard extends CI_Controller
 		if ($_SESSION["id"]) {
 			$data["tareas"] = $this->ejemplo_model->mis_tareas($_SESSION["curso"]);
 			$this->loadViews("misTareas", $data);
-			
+		} else {
+			redirect(base_url() . "Dashboard", "location");
+		}
+	}
+
+
+	// Mensajes
+	public function mensajes()
+	{
+		if ($_SESSION["id"]) {
+			$this->loadViews("mensajes");
 		} else {
 			redirect(base_url() . "Dashboard", "location");
 		}

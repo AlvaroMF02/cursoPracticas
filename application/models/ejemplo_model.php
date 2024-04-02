@@ -93,12 +93,14 @@ class ejemplo_model extends CI_Model
     }
 
     // -------------- Insert --------------
-    public function subirTarea($data,$archivo) {
+    public function subirTarea($data,$archivo=null) {
         $tarea["nombre"] = $data["nombre"];
         $tarea["descripcion"] = $data["descripcion"];
         $tarea["fecha_final"] = $data["fecha"];
-        $tarea["archivo"] = $archivo;
         $tarea["curso"] = $data["curso"];
+        if($archivo != null){
+            $tarea["archivo"] = $archivo;
+        }
 
         $this->db->insert("tareas",$tarea);
     }

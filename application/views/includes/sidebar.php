@@ -53,7 +53,7 @@
                 </a>
             </li>
             <li class="sub-menu">
-                <a href="javascript:;">
+                <a href="<?= base_url()?>Dashboard/mensajes">
                     <i class="fa fa-tasks"></i>
                     <span>Mensajes</span>
                 </a>
