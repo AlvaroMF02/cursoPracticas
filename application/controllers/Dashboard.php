@@ -143,7 +143,8 @@ class Dashboard extends CI_Controller
 
 			// Insertar mensaje
 			if ($_POST) {
-				$this->ejemplo_model->insertar_mensaje($_POST, $_SESSION["id"]);
+				$token = $this->ejemplo_model->get_token($_SESSION["id"],$_SESSION["tipo"]);
+				$this->ejemplo_model->insertar_mensaje($_POST, $token);
 			}
 			// Obtener a los usuarios
 			$data["usuarios"] = $this->ejemplo_model->get_usuarios($_SESSION["tipo"], $_SESSION["curso"]);

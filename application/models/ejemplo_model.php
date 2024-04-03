@@ -199,12 +199,38 @@ class ejemplo_model extends CI_Model
     {
         $this->db->select("*");
         $this->db->where("id_to", $token);
-        $this->db->from("mensajes");
+        $this->db->from("mensajes");    // poner el from antes
 
         // obtener consulta generada
         $query = $this->db->get();
 
-        print_r($this->db->last_query());
+        // print_r($this->db->last_query());
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return NULL;
+        }
+    }
+
+    // coger todos los datos de alumno o profesor
+    public function getNombre($id)
+    {
+        $this->db->select("*");
+        $this->db->from("alumnos");
+        $this->db->where("token_mensaje", $id);
+
+        $query1 = $this->db->get_compiled_select();
+
+        $this->db->select("*");
+        $this->db->from("profesores");
+        $this->db->where("token_mensaje", $id);
+       
+        $query2 = $this->db->get_compiled_select();
+        
+        $query = $this->db->query($query1." UNION " . $query2 );            // juntar las querys
+
+        // print_r($this->db->last_query());
 
         if ($query->num_rows() > 0) {
             return $query->result();

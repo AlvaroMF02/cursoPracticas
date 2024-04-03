@@ -9,19 +9,24 @@
                         <th>Nombre</th>
                         <th>Apellidos</th>
                         <th>Fecha</th>
+                        <th>Ver</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     foreach ($mensajes as $m) {
-
+                        $nombreApelli = $this->ejemplo_model->getNombre("nombre",$m->id_from);
+                        print_r($nombreApelli);
+                        $nombre = $nombreApelli[0]->nombre;
+                        $apellidos = $nombreApelli[0]->apellidos;
 
                     ?>
 
                         <tr>
-                            <td>asd</td>
-                            <td>asd</td>
-                            <td>asd</td>
+                            <td><?=$nombre?></td>
+                            <td><?=$apellidos?></td>
+                            <td><?=date("d-m H:i",strtotime($m->created_at)) ?></td>
+                            <td>Ver</td>
                         </tr>
 
                     <?php
@@ -92,8 +97,8 @@
                 targets: [1],
                 orderData: [1, 0]
             }, {
-                targets: [2],
-                orderData: [2, 0]
+                targets: [3],
+                orderData: [3, 0]
             }]
         });
     })
